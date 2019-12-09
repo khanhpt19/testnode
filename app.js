@@ -27,7 +27,8 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.get("/", (req, res) => res.send("Test Node App"));	
 app.use("/note", note);
 app.use("/company", company);
 
-app.listen(process.env.port || 3000, () => console.log(`Listening on port`));
+app.listen(process.env.port || 3000, () => console.log(`Server is running`));
