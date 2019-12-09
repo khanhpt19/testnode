@@ -29,5 +29,5 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/note", note);
 app.use("/company", company);
-
+app.get("/", (req, res) => res.send("Test Node"));
 app.listen(port, () => console.log(`Listening on port ${port}!`));

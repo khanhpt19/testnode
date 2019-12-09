@@ -1,158 +1,55 @@
 const Note = require("../models/note.model");
-const Company = require("../models/company.model");
 
 module.exports = {
   create: async (req, res) => {
-    company = req.params;
-    id = company.id;
     const { title, content } = req.body;
     const note = await Note.create({
       title,
-      content,
-      company: id
+      content
     });
-    await note.save();
-
-    const companyById = await Company.findById(id);
-
-    companyById.notes.push(note);
-
-    await companyById.save();
-
-    return res.send(companyById);
+    return res.send(note);
   },
 
-  find: async (req, res) => {
+  findAll: async (req, res) => {
     const notes = await Note.find();
     return res.send(notes);
   },
 
-  companyByNoteId: async (req, res) => {
-    const { id } = req.params;
-    const companyByNoteId = await Note.findById(id).populate("Company");
-    res.send(companyByNoteId);
+  find: async (req, res) => {
+    try {
+      const note = await Note.findById(req.params.id);
+      return res.send(note);
+    } catch (error) {
+      res.send(error);
+    }
+  },
+
+  update: async (req, res) => {
+    const note = await Note.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+        content: req.body.content
+      },
+      {
+        new: true
+      }
+    );
+    try {
+      return res.status(201).send(note);
+    } catch (error) {
+      return res.send(error);
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      await Note.findByIdAndDelete(req.params.id);
+      res.send({
+        message: "Deleted successfully"
+      });
+    } catch (error) {
+      res.send(error);
+    }
   }
 };
-
-// exports.test = function(req, res) {
-//   res.send("Greeting from test controller");
-// };
-
-// exports.create = (req, res) => {
-//   if (!req.body.content) {
-//     return res.status(400).send({
-//       message: "Note content can not be empty"
-//     });
-//   }
-
-//   const note = new Note({
-//     title: req.body.title || "Untitled Note",
-//     content: req.body.content
-//   });
-
-//   note
-//     .save()
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message: err.message || "Some error occurred while creating the Note."
-//       });
-//     });
-// };
-
-// exports.findAll = (req, res) => {
-//   Note.find()
-//     .then(notes => {
-//       res.send(notes);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message: err.message || "Some error occurred while retrieving notes"
-//       });
-//     });
-// };
-
-// exports.findOne = (req, res) => {
-//   Note.findById(req.params.noteId)
-//     .then(note => {
-//       if (!note) {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       res.send(note);
-//     })
-//     .catch(err => {
-//       if (err.kind === "ObjectId") {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       return res.status(500).send({
-//         message: "Error retrieving note with id " + req.params.noteId
-//       });
-//     });
-// };
-
-// exports.update = (req, res) => {
-//   if (!req.body.content) {
-//     return res.status(400).send({
-//       message: "Note content can not be empty"
-//     });
-//   }
-
-//   Note.findByIdAndUpdate(
-//     req.params.noteId,
-//     {
-//       title: req.body.title || "Untitled Note",
-//       content: req.body.content
-//     },
-//     {
-//       new: true
-//     }
-//   )
-//     .then(note => {
-//       if (!note) {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       res.send(note);
-//     })
-//     .catch(err => {
-//       if (err.kind === "ObjectId") {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       return res.status(500).send({
-//         message: "Error updating note with id " + req.params.noteId
-//       });
-//     });
-// };
-
-// exports.delete = (req, res) => {
-//   Note.findByIdAndDelete(req.params.noteId)
-//     .then(note => {
-//       if (!note) {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       res.send({
-//         message: "Note deleted successfully!"
-//       });
-//     })
-//     .catch(err => {
-//       if (err.kind === "ObjectId" || err.name === "NotFound") {
-//         return res.status(404).send({
-//           message: "Note not found with id " + req.params.noteId
-//         });
-//       }
-//       return res.status(500).send({
-//         message: "Could not delete note with id " + req.params.noteId
-//       });
-//     });
-// };
