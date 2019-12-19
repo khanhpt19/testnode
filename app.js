@@ -27,7 +27,7 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.get("/", (req, res) => res.send("Test Node App"));	
+app.get("/", (req, res) => res.send("Test Node App"));
 app.use("/note", note);
 app.use("/company", company);
 
