@@ -7,7 +7,7 @@ const note = require("./routes/note.route");
 const company = require("./routes/company.route");
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 mongoose.Promise = global.Promise;
 
@@ -31,4 +31,4 @@ app.get("/", (req, res) => res.send("Test Node App"));
 app.use("/note", note);
 app.use("/company", company);
 
-app.listen(process.env.port || 3000, () => console.log(`Server is running`));
+app.listen(PORT, () => console.log(`Server is running`));
