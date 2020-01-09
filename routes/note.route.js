@@ -13,4 +13,6 @@ router.put("/:id", note_controller.update);
 
 router.delete("/:id", note_controller.delete);
 
+router.get("/search/:title", note_controller.search);
+
 module.exports = router;

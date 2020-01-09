@@ -5,12 +5,13 @@ const mongoose = require("mongoose");
 const dbConfig = require("./config/database.config");
 const note = require("./routes/note.route");
 const company = require("./routes/company.route");
+const user = require("./routes/user.route");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 mongoose.Promise = global.Promise;
-
+mongoose.set('useCreateIndex', true);
 mongoose
   .connect(dbConfig.url, {
     useUnifiedTopology: true,
@@ -30,5 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.send("Test Node App"));
 app.use("/note", note);
 app.use("/company", company);
+app.use("/user", user);
 
 app.listen(PORT, () => console.log(`Server is running`));

@@ -127,5 +127,29 @@ module.exports = {
         error: "Server error"
       });
     }
+  },
+
+  search: async (req, res) => {
+    try {
+      var title = req.params.title
+      const notes = await Note.find({$text: { $search: title}})
+      if(notes != null){
+        return res.status(200).json({
+          status: "200",
+          message: "OK",
+          notes: notes
+        });
+      } else {
+        return res.status(404).json({
+          status: 404,
+          error: "not found"
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: "Server error"
+      });
+    }
   }
 };
