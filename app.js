@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 mongoose.Promise = global.Promise;
-mongoose.set('useCreateIndex', true);
+mongoose.set("useCreateIndex", true);
 mongoose
   .connect(dbConfig.url, {
     useUnifiedTopology: true,
