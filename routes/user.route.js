@@ -11,4 +11,8 @@ router.get("", auth, user_controller.getAll);
 
 router.post("/login", user_controller.login);
 
+router.delete("/:id", user_controller.delete);
+
+router.post("/confirmation", user_controller.confirmation);
+
 module.exports = router;
