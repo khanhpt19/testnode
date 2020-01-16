@@ -17,6 +17,6 @@ const NoteSchema = mongoose.Schema(
   }
 );
 
-NoteSchema.index({title:"text"});
+NoteSchema.index({ title: "text" });
 
 module.exports = mongoose.model("Note", NoteSchema);

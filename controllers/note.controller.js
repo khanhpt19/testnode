@@ -131,9 +131,9 @@ module.exports = {
 
   search: async (req, res) => {
     try {
-      var title = req.params.title
-      const notes = await Note.find({$text: { $search: title}})
-      if(notes != null){
+      var title = req.params.title;
+      const notes = await Note.find({ $text: { $search: title } });
+      if (notes != null) {
         return res.status(200).json({
           status: "200",
           message: "OK",
